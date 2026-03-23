@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cart - Foodie Express</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <img src="logo.png" class="logo">
+    <span class="brand-title">Foodie Express</span>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="menu.html"> Menu</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+<main>
+<section class="section">
+
+<h2 class="section-title">🛒 Shopping Cart</h2>
+<p class="section-subtitle">Review your items and proceed to checkout</p>
+
+<div id="cartItems" class="card"></div>
+
+<!-- CHECKOUT -->
+
+<div class="checkout" id="checkoutSection" style="display:none;">
+
+  <h3 style="margin:20px 0;">📦 Delivery Details</h3>
+
+  <form id="checkoutForm">
+<input id="name" placeholder="Full Name" class="input" required><br><br>
+<input id="phone" placeholder="Phone Number" class="input" required><br><br>
+<input id="email" placeholder="Email (optional)" class="input"><br><br>
+<textarea id="address" placeholder="Full Address" class="input" required></textarea><br><br>
+
+<select id="payment" class="input" required>
+  <option value="">Select Payment</option>
+  <option>Cash on Delivery</option>
+  <option>UPI</option>
+  <option>Card</option>
+</select>
+
+<br><br>
+
+<button type="submit"  class="btn btn-primary place-order-btn">
+  Place Order
+</button>
+
+
+  </form>
+
+  <div id="orderStatus"></div>
+
+</div>
+
+</section>
+</main>
+
+<script>
+const MENU_ITEMS = [
+  // CLASSIC
+  {id:1,name:"Margherita Pizza",desc:"Classic cheese pizza",price:229,type:"veg"},
+  {id:2,name:" Veg Burger",desc:"Crispy veg burger",price:179,type:"veg"},
+  {id:3,name:" Chicken Burger",desc:"Juicy chicken burger",price:199,type:"nonveg"},
+  {id:4,name:" Paneer Wrap",desc:"Grilled paneer wrap",price:159,type:"veg"},
+  {id:5,name:" Chicken Wrap",desc:"Spicy chicken wrap",price:189,type:"nonveg"},
+
+  //  MEALS
+  {id:6,name:" Chicken Biryani",desc:"Hyderabadi style",price:249,type:"nonveg"},
+  {id:7,name:" Veg Biryani",desc:"Spicy veg biryani",price:199,type:"veg"},
+  {id:8,name:" Fried Rice",desc:"Veg fried rice",price:149,type:"veg"},
+  {id:9,name:" Chicken Fried Rice",desc:"Chicken rice",price:189,type:"nonveg"},
+  {id:10,name:" Chicken Noodles",desc:"Chicken noodles",price:139,type:"nonveg"},
+
+  //  NON-VEG
+  {id:11,name:" Grill Chicken",desc:"Spicy grilled chicken",price:259,type:"nonveg"},
+  {id:12,name:" Chicken 65",desc:"Fried chicken bites",price:199,type:"nonveg"},
+  {id:13,name:" Shawarma",desc:"Middle east roll",price:149,type:"nonveg"},
+  {id:14,name:" Tandoori Chicken",desc:"BBQ style chicken",price:299,type:"nonveg"},
+  {id:15,name:" Chicken Wings",desc:"Spicy wings",price:179,type:"nonveg"},
+  //  VEG
+  {id:16,name:" Paneer Butter Masala",desc:"Creamy curry",price:199,type:"veg"},
+  {id:17,name:" Dal Tadka",desc:"Indian dal",price:129,type:"veg"},
+  {id:18,name:" Veg Salad",desc:"Healthy salad",price:99,type:"veg"},
+  {id:19,name:" Veg Sandwich",desc:"Grilled sandwich",price:119,type:"veg"},
+  {id:20,name:" French Fries",desc:"Crispy fries",price:99,type:"veg"},
+
+  //  DRINKS
+  {id:21,name:" Cold Coffee",desc:"Iced coffee",price:129,type:"veg"},
+  {id:22,name:" Milkshake",desc:"Chocolate shake",price:149,type:"veg"},
+  {id:23,name:" Juice",desc:"Fresh juice",price:99,type:"veg"},
+  {id:24,name:" Lassi",desc:"Sweet lassi",price:89,type:"veg"},
+  {id:25,name:" Tea",desc:"Hot tea",price:49,type:"veg"},
+
+  //  EXTRA
+  {id:26,name:" Egg Rice",desc:"Egg fried rice",price:149,type:"nonveg"},
+  {id:27,name:" Egg Noodles",desc:"Egg noodles",price:139,type:"nonveg"},
+  {id:28,name:" Paneer Pizza",desc:"Paneer topping",price:249,type:"veg"},
+  {id:29,name:" Chicken Pizza",desc:"Chicken topping",price:279,type:"nonveg"},
+  {id:30,name:" Combo Meal",desc:"Burger + drink combo",price:199,type:"veg"}
+];
+
+let cart = JSON.parse(localStorage.getItem('foodie_cart') || '{}');
+const DELIVERY_FEE = 40;
+
+function formatINR(n){ return "₹" + n; }
+
+/* RENDER CART */
+function renderCart(){
+
+  const el = document.getElementById("cartItems");
+  let subtotal = 0;
+  let itemsHTML = "";
+
+  for(let id in cart){
+    const item = MENU_ITEMS.find(i => i.id == id);
+    if(!item) continue;
+
+    const qty = cart[id];
+    const total = item.price * qty;
+
+    subtotal += total;
+
+    itemsHTML += `
+      <div class="cart-item">
+        <span>${item.name} x${qty}</span>
+        <span>${formatINR(total)}</span>
+      </div>
+    `;
+  }
+
+  if(subtotal === 0){
+    el.innerHTML = "<p style='text-align:center'>Cart is empty</p>";
+    return;
+  }
+
+  const total = subtotal + DELIVERY_FEE;
+
+  el.innerHTML = `
+    ${itemsHTML}
+
+    <div class="cart-summary">
+      <span>Subtotal</span>
+      <span>${formatINR(subtotal)}</span>
+    </div>
+
+    <div class="cart-summary">
+      <span>Delivery</span>
+      <span>${formatINR(DELIVERY_FEE)}</span>
+    </div>
+
+    <div class="cart-summary">
+      <strong>Total</strong>
+      <strong>${formatINR(total)}</strong>
+    </div>
+
+    <a href="delivery.html" class="btn btn-primary" style="width:100%; display:block; text-align:center; margin-top:15px;">
+  Proceed to Checkout
+</a>
+  `;
+}
+
+renderCart();
+function updateFloatingCart(){
+  let total = 0;
+
+  for(let id in cart){
+    total += cart[id];
+  }
+
+  const box = document.getElementById("floatingCart");
+  const count = document.getElementById("fcCount");
+
+  if(total > 0){
+    box.style.display = "flex";
+    count.innerText = total + " item";
+  } else {
+    box.style.display = "none";
+  }
+}
+
+/* GO TO CART */
+function goToCart(){
+  window.location.href = "cart.html";
+}
+</script>
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-col">
+      <h3>🍔 Foodie Express</h3>
+      <p>Fast delivery across Chennai. Fresh, hot & delicious food at your doorstep.</p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="cart.html">Cart</a>
+      <a href="admin.html">Admin</a>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 Chennai, India</p>
+      <p>📞 +91 98765 43210</p>
+      <p>📧 foodieexpress@email.com</p>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="socials">
+        <span>📘</span>
+        <span>📸</span>
+        <span>🐦</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Foodie Express | Made by You 🚀
+  </div>
+
+</footer>
+</body>
+</html>

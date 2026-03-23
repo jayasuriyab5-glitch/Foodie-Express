@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Menu - Foodie Express</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <img src="logo.png" class="logo">
+    <span class="brand-title">Foodie Express</span>
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="admin.html">Admin</a>
+    <a href="cart.html" class="btn-primary">
+      Cart (<span id="menuCartCount">0</span>)
+    </a>
+  </nav>
+</header>
+
+<main>
+  <div class="section layout">
+
+<!-- MENU -->
+<div>
+  <h2 class="section-title">Menu</h2>
+  <p class="section-subtitle">Browse today's specials</p>
+ 
+
+  <div id="menuList"></div>
+</div>
+  </div>
+</main>
+<div class="floating-cart" id="floatingCart" style="display:none;">
+
+  <div class="fc-left">
+    <img src="logo.png">
+    <div>
+      <div class="fc-title">Foodie Express</div>
+      <div class="fc-sub">View Menu</div>
+    </div>
+  </div>
+
+  <div class="fc-btn" onclick="goToCart()">
+    View Cart <br>
+    <span id="fcCount">0 item</span>
+  </div>
+
+</div>
+
+<script>
+const MENU_ITEMS = [
+  // CLASSIC
+  {id:1,name:"Margherita Pizza",desc:"Classic cheese pizza",price:229,type:"veg",img:"https://images.pexels.com/photos/29609013/pexels-photo-29609013.jpeg"},
+  {id:2,name:" Veg Burger",desc:"Crispy veg burger",price:179,type:"veg",img:"https://images.pexels.com/photos/2282532/pexels-photo-2282532.jpeg"},
+  {id:3,name:" Chicken Burger",desc:"Juicy chicken burger",price:199,type:"nonveg",img:"https://images.pexels.com/photos/3915915/pexels-photo-3915915.jpeg"},
+  {id:4,name:" Paneer Wrap",desc:"Grilled paneer wrap",price:159,type:"veg",img:"https://images.pexels.com/photos/33430554/pexels-photo-33430554.jpeg"},
+  {id:5,name:" Chicken Wrap",desc:"Spicy chicken wrap",price:189,type:"nonveg",img:"https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"},
+
+  //  MEALS
+  {id:6,name:" Chicken Biryani",desc:"Hyderabadi style",price:249,type:"nonveg",img:"https://images.pexels.com/photos/28674660/pexels-photo-28674660.jpeg"},
+  {id:7,name:" Veg Biryani",desc:"Spicy veg biryani",price:199,type:"veg",img:"https://images.pexels.com/photos/9609847/pexels-photo-9609847.jpeg"},
+  {id:8,name:" Fried Rice",desc:"Veg fried rice",price:149,type:"veg",img:"https://images.pexels.com/photos/3727196/pexels-photo-3727196.jpeg"},
+  {id:9,name:" Chicken Fried Rice",desc:"Chicken rice",price:189,type:"nonveg",img:"https://b.zmtcdn.com/data/pictures/chains/9/21955129/1762b93e17eef8d13e7155cb83931e75.jpeg?fit=around|300:273&crop=300:273;*,*"},
+  {id:10,name:" Chicken Noodles",desc:"Chicken noodles",price:139,type:"nonveg",img:"https://images.pexels.com/photos/6646021/pexels-photo-6646021.jpeg"},
+
+  //  NON-VEG
+  {id:11,name:" Grill Chicken",desc:"Spicy grilled chicken",price:259,type:"nonveg",img:"https://images.pexels.com/photos/5031938/pexels-photo-5031938.jpeg"},
+  {id:12,name:" Chicken 65",desc:"Fried chicken bites",price:199,type:"nonveg",img:"https://b.zmtcdn.com/data/dish_photos/14b/f07fce614a0d3e3f21a4f24307e8714b.jpg?output-format=webp"},
+  {id:13,name:" Shawarma",desc:"Middle east roll",price:149,type:"nonveg",img:"https://b.zmtcdn.com/data/dish_photos/bd7/bbde36976db6e624c4e51579b0591bd7.jpg?output-format=webp"},
+  {id:14,name:" Tandoori Chicken",desc:"BBQ style chicken",price:299,type:"nonveg",img:"https://b.zmtcdn.com/data/pictures/8/69738/f3ec813c457e6ed00c946728228116d4_o2_featured_v2.jpg?output-format=webp"},
+  {id:15,name:" Chicken Wings",desc:"Spicy wings",price:179,type:"nonveg",img:"https://images.pexels.com/photos/29908653/pexels-photo-29908653.jpeg"},
+  //  VEG
+  {id:16,name:" Paneer Butter Masala",desc:"Creamy curry",price:199,type:"veg",img:"https://images.pexels.com/photos/11188417/pexels-photo-11188417.jpeg"},
+  {id:17,name:" Dal Tadka",desc:"Indian dal",price:129,type:"veg",img:"https://b.zmtcdn.com/data/dish_photos/800/69867588629c8f8addb319b01c1ee800.jpg?fit=around|130:130&crop=130:130;*,*"},
+  {id:18,name:" Veg Salad",desc:"Healthy salad",price:99,type:"veg",img:"https://images.pexels.com/photos/2092903/pexels-photo-2092903.jpeg"},
+  {id:19,name:" Veg Sandwich",desc:"Grilled sandwich",price:119,type:"veg",img:"https://images.pexels.com/photos/12540668/pexels-photo-12540668.png"},
+  {id:20,name:" French Fries",desc:"Crispy fries",price:99,type:"veg",img:"https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"},
+
+  //  DRINKS
+  {id:21,name:" Cold Coffee",desc:"Iced coffee",price:129,type:"veg",img:"https://images.pexels.com/photos/2615323/pexels-photo-2615323.jpeg"},
+  {id:22,name:" Milkshake",desc:"Chocolate shake",price:149,type:"veg",img:"https://images.pexels.com/photos/34711201/pexels-photo-34711201.jpeg"},
+  {id:23,name:" Juice",desc:"Fresh juice",price:99,type:"veg",img:"https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg"},
+  {id:24,name:" Lassi",desc:"Sweet lassi",price:89,type:"veg",img:"https://b.zmtcdn.com/data/pictures/chains/7/18529497/024b8c728f0e633b72c76e751f9221a9_featured_v2.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*"},
+  {id:25,name:" Tea",desc:"Hot tea",price:49,type:"veg",img:"https://images.pexels.com/photos/905485/pexels-photo-905485.jpeg"},
+
+  //  EXTRA
+  {id:26,name:" Egg Rice",desc:"Egg fried rice",price:149,type:"nonveg",img:"https://images.pexels.com/photos/9980760/pexels-photo-9980760.jpeg"},
+  {id:27,name:" Egg Noodles",desc:"Egg noodles",price:139,type:"nonveg",img:"https://images.pexels.com/photos/8395783/pexels-photo-8395783.jpeg"},
+  {id:28,name:" Paneer Pizza",desc:"Paneer topping",price:249,type:"veg",img:"https://images.pexels.com/photos/11974636/pexels-photo-11974636.jpeg"},
+  {id:29,name:" Chicken Pizza",desc:"Chicken topping",price:279,type:"nonveg",img:"https://images.pexels.com/photos/31587565/pexels-photo-31587565.jpeg"},
+  {id:30,name:" Combo Meal",desc:"Burger + drink combo",price:199,type:"veg",img:"https://images.pexels.com/photos/28445829/pexels-photo-28445829.jpeg"}
+];
+let cart = JSON.parse(localStorage.getItem('foodie_cart') || '{}');
+let currentFilter = "all";
+
+function formatINR(n){
+  return "₹" + n;
+}
+
+function filterMenu(type){
+  currentFilter = type;
+  renderMenu();
+}
+
+function renderMenu(){
+  const menuList = document.getElementById("menuList");
+  menuList.innerHTML = "";
+
+  MENU_ITEMS
+  .filter(item => currentFilter==="all" || item.type===currentFilter)
+  .forEach(item=>{
+    const qty = cart[item.id] || 0;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${item.img}" style="width:100%;height:140px;object-fit:cover;border-radius:10px">
+
+      <div class="card-title">${item.name}</div>
+      <div class="card-meta">${item.desc}</div>
+
+      <div class="card-bottom">
+        <span class="price">${formatINR(item.price)}</span>
+
+        <div class="qty-controls" data-id="${item.id}">
+          <button class="btnMinus" ${qty===0?'disabled':''}>-</button>
+          <span>${qty}</span>
+          <button class="btnPlus">+</button>
+        </div>
+      </div>
+    `;
+
+    menuList.appendChild(card);
+  });
+}
+
+function updateCart(){
+  let totalItems = 0;
+  let totalAmount = 0;
+
+  for(const id in cart){
+    const item = MENU_ITEMS.find(i=>i.id==id);
+    totalItems += cart[id];
+    totalAmount += item.price * cart[id];
+  }
+
+  document.getElementById("menuCartCount").innerText = totalItems;
+  document.getElementById("cartCount").innerText = `(${totalItems})`;
+  document.getElementById("cartTotal").innerText = "₹" + totalAmount;
+}
+
+
+function updateFloatingCart(){
+  let total = 0;
+
+  for(let id in cart){
+    total += cart[id];
+  }
+
+  const box = document.getElementById("floatingCart");
+  const count = document.getElementById("fcCount");
+
+  if(total > 0){
+    box.style.display = "flex";
+    count.innerText = total + " item";
+  } else {
+    box.style.display = "none";
+  }
+}
+
+/* CLICK */
+document.getElementById("menuList").addEventListener("click", e=>{
+  const wrap = e.target.closest(".qty-controls");
+  if(!wrap) return;
+
+  const id = wrap.dataset.id;
+
+  if(e.target.classList.contains("btnPlus")){
+    cart[id]=(cart[id]||0)+1;
+  }
+
+  if(e.target.classList.contains("btnMinus")){
+    cart[id]=Math.max((cart[id]||0)-1,0);
+    if(cart[id]===0) delete cart[id];
+  }
+
+  localStorage.setItem("foodie_cart", JSON.stringify(cart));
+
+  renderMenu();
+  updateCart();
+  updateFloatingCart(); 
+});
+
+/* NAV CART */
+function updateCart(){
+  let total=0;
+  for(let id in cart) total+=cart[id];
+  document.getElementById("menuCartCount").innerText = total;
+}
+
+/* FLOATING CART */
+function updateFloatingCart(){
+  let total=0;
+  for(let id in cart) total+=cart[id];
+
+  const box = document.getElementById("floatingCart");
+  const count = document.getElementById("fcCount");
+
+  if(total>0){
+    box.style.display="flex";
+    count.innerText = total;
+  }else{
+    box.style.display="none";
+  }
+}
+
+/* GO TO CART */
+function goToCart(){
+  window.location.href="cart.html";
+}
+
+/* INIT */
+renderMenu();
+updateCart();
+updateFloatingCart();
+
+</script>
+
+</body>
+</html>

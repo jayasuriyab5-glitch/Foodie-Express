@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Foodie Express - Chennai's Best Food Delivery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hot fresh food delivered fast in Chennai">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="logo.png" alt="Foodie Express" style="width:50px; height:50px; ">
+      <span class="brand-title">Foodie Express</span>
+    </div>
+    <nav>
+      <a href="menu.html">Menu</a>
+      <a href="admin.html">Admin</a>
+      <a href="cart.html" class="btn-primary">
+  Cart (<span id="homeCartCount">0</span>)
+</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Hot Food Delivered in 30 Mins</h1>
+      <p>Order from 100+ local restaurants in Chennai. Fresh & Fast!</p>
+      <a href="menu.html" class="btn btn-primary" style="font-size: clamp(16px,4vw,18px); padding:16px 32px;">
+        🍽️ Order Now
+      </a>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Why Foodies Love Us</h2>
+      <div class="features-grid">
+        <div class="card">
+          <div style="font-size: clamp(32px,8vw,48px); margin-bottom:16px;">🚀</div>
+          <h3 style="font-size: clamp(18px,5vw,22px); margin-bottom:12px;">Lightning Fast Delivery</h3>
+          <p>Under 30 minutes guaranteed. Hot & fresh every time.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: clamp(32px,8vw,48px); margin-bottom:16px;">⭐</div>
+          <h3 style="font-size: clamp(18px,5vw,22px); margin-bottom:12px;">100+ Restaurants</h3>
+          <p>Biryani, Pizza, Burgers, Dosa. Best of Chennai cuisine.</p>
+        </div>
+        <div class="card">
+          <div style="font-size: clamp(32px,8vw,48px); margin-bottom:16px;">💰</div>
+          <h3 style="font-size: clamp(18px,5vw,22px); margin-bottom:12px;">Super Affordable</h3>
+          <p>Starting ₹99. No hidden fees. Transparent pricing always.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🔥 Trending Now</h2>
+      <div class="popular-grid">
+        <div class="card">
+          <div class="card-title">🍕 Margherita Pizza</div>
+          <div class="card-meta">Classic cheese & tomato</div>
+          <div class="card-bottom">
+            <span class="price">₹229</span>
+            <a href="menu.html" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🍗 Chicken 65 Biryani</div>
+          <div class="card-meta">Hyderabadi style with raita</div>
+          <div class="card-bottom">
+            <span class="price">₹249</span>
+            <a href="menu.html" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🥗 Fresh Caesar Salad</div>
+          <div class="card-meta">Crispy veggies & dressing</div>
+          <div class="card-bottom">
+            <span class="price">₹189</span>
+            <a href="menu.html" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-col">
+      <h3>🍔 Foodie Express</h3>
+      <p>Fast delivery across Chennai. Fresh, hot & delicious food at your doorstep.</p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="cart.html">Cart</a>
+      <a href="admin.html">Admin</a>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 Chennai, India</p>
+      <p>📞 +91 98765 43210</p>
+      <p>📧 foodieexpress@email.com</p>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="socials">
+        <span>📘</span>
+        <span>📸</span>
+        <span>🐦</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Foodie Express | Made by You 🚀
+  </div>
+
+</footer>
+  <script>
+    // Live cart count
+    const cart = JSON.parse(localStorage.getItem('foodie_cart') || '{}');
+    const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+    document.getElementById('homeCartCount').textContent = totalItems || 0;
+  </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Delivery - Foodie Express</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h2 style="color:#ff4d4d;">🚚 Delivery Details</h2>
+</header>
+
+<main class="section">
+
+  <div class="card" style="max-width:500px;margin:auto;">
+
+<h3>📍 Delivery Address</h3>
+<input type="text" id="name" placeholder="Full Name" class="input"><br><br>
+<input type="text" id="phone" placeholder="Phone Number" class="input"><br><br>
+<textarea id="address" placeholder="Full Address" class="input"></textarea><br><br>
+
+<h3>💳 Payment Method</h3>
+<select id="payment" class="input">
+  <option value="COD">Cash on Delivery</option>
+  <option value="UPI">UPI</option>
+  <option value="Card">Card</option>
+</select>
+
+<br><br>
+
+<button onclick="confirmOrder()" class="btn btn-primary" style="width:100%;">
+  Confirm Order
+</button>
+
+  </div>
+
+</main>
+
+<script>
+function confirmOrder(){
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+  const payment = document.getElementById("payment").value;
+
+  if(!name || !phone || !address){
+    alert("Please fill all details");
+    return;
+  }
+
+  let cart = JSON.parse(localStorage.getItem('foodie_cart') || '{}');
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+  let items = [];
+  let total = 0;
+
+  for(let id in cart){
+    items.push(`Item ${id} x${cart[id]}`);
+    total += cart[id] * 100;
+  }
+
+  orders.push({
+    id: Date.now(),
+    name,
+    phone,
+    address,
+    payment,
+    items: items.join(", "),
+    total,
+    status: "Pending"
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.removeItem("foodie_cart");
+  alert("Order placed successfully 🎉");
+alert
+
+  window.location.href = "admin.html";
+}
+</script>
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-col">
+      <h3>🍔 Foodie Express</h3>
+      <p>Fast delivery across Chennai. Fresh, hot & delicious food at your doorstep.</p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="cart.html">Cart</a>
+      <a href="admin.html">Admin</a>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 Chennai, India</p>
+      <p>📞 +91 98765 43210</p>
+      <p>📧 foodieexpress@email.com</p>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="socials">
+        <span>📘</span>
+        <span>📸</span>
+        <span>🐦</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Foodie Express | Made by You 🚀
+  </div>
+
+</footer>
+</body>
+</html>
