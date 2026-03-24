@@ -19,6 +19,90 @@ main{
   font-family: 'Segoe UI', sans-serif;
 }
 
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 16px;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+/* BRAND */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.logo{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.brand-title{
+  font-size:18px;
+  font-weight:700;
+  color:#ff4d4d;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+nav a{
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:20px;
+  background:#ff4d4d;
+  color:#fff;
+  font-size:13px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  transition:0.2s;
+}
+
+nav a:hover{
+  transform:translateY(-1px);
+}
+
+/* CART SPECIAL */
+.cart-btn{
+  background:linear-gradient(135deg,#ff4d4d,#ff914d);
+  box-shadow:0 4px 12px rgba(255,77,77,0.4);
+}
+
+
+@media(max-width:600px){
+
+  .brand-title{
+    display:none; 
+  }
+
+  nav{
+    gap:6px;
+  }
+
+  nav a{
+    padding:6px 10px;
+    font-size:12px;
+  }
+
+  .logo{
+    width:36px;
+    height:36px;
+  }
+}
 html {
   scroll-behavior: smooth;
 }
@@ -814,7 +898,7 @@ nav a {
   height: auto;
 }
 
-/* MOBILE FIX */
+/* MOBILE*/
 @media (max-width: 768px) {
 
   .logo {
