@@ -75,16 +75,20 @@ function confirmOrder(){
     status: "Pending"
   });
 
-  alert("Your order is being prepared 🍳");
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.removeItem("foodie_cart");
 
-setTimeout(() => {
-  alert("🚚 Your order is on the way!");
-}, 3000);
+    alert("🍳 Your order is being prepared");
 
-setTimeout(() => {
-  alert("✅ Delivered successfully!");
-  window.location.href = "admin.html";
-}, 6000);
+  setTimeout(() => {
+    alert("🚚 Your order is on the way!");
+  }, 2000);
+
+  setTimeout(() => {
+    alert("✅ Delivered successfully!");
+    window.location.href = "admin.html";
+  }, 4000);
+}
 </script>
 <footer class="footer">
 
