@@ -27,6 +27,19 @@
   <h3>📦 Incoming Orders</h3>
   <div id="ordersList"></div>
 
+  <a href="index.html"  style="
+       display:inline-block;
+       background:linear-gradient(45deg, #ff3b3b, #ff7a3b);
+       color:white;
+       padding:10px 22px;
+       border-radius:25px;
+       font-family:Arial, sans-serif;
+       font-size:16px;
+       text-decoration:none;
+       font-weight:bold;
+     ">Home</a>
+
+
 </main>
 
 <script>
@@ -88,10 +101,10 @@ function markDelivered(id) {
 
   localStorage.setItem('orders', JSON.stringify(orders));
   loadOrders();
-}/* AUTO REFRESH EVERY 3 SECONDS */
+}
 setInterval(loadOrders, 3000);
 
-/* INITIAL LOAD */
+
 loadOrders();
 </script>
 <footer class="footer">
@@ -100,7 +113,7 @@ loadOrders();
 
     <!-- BRAND -->
     <div class="footer-col">
-      <h3>🍔 Foodie Express</h3>
+      <h3>Foodie Express</h3>
       <p>Fast delivery across Chennai. Fresh, hot & delicious food at your doorstep.</p>
     </div>
 
@@ -125,9 +138,9 @@ loadOrders();
     <div class="footer-col">
       <h4>Follow Us</h4>
       <div class="socials">
-        <span>📘</span>
-        <span>📸</span>
-        <span>🐦</span>
+        <span>INSTAGRAM</span>
+        <span>FACEBOOK</span>
+        <span>TWITTER</span>
       </div>
     </div>
 
